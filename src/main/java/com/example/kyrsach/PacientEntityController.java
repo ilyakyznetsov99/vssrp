@@ -11,21 +11,21 @@ public class PacientEntityController {
     private  PacientEntityInterface pacientEntityInterface;
 
     @GetMapping("/get/pacient")
-    public Iterable<PacientEntity> getCabinetEntities() {
+    public Iterable<PacientEntity> getPacientEntities() {
         return pacientEntityInterface.findAll();
     }
     @PostMapping("/add/pacient")
-    public ResponseEntity<PacientEntity> createCabinetEntity(@RequestBody PacientEntity patient) {
+    public ResponseEntity<PacientEntity> createPacientEntity(@RequestBody PacientEntity patient) {
         pacientEntityInterface.save(patient);
         return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/pacient/{id}")
-    public ResponseEntity<Integer> deleteCabinetEntity(@PathVariable Integer id){
+    public ResponseEntity<Integer> deletePacientEntity(@PathVariable Integer id){
         pacientEntityInterface.deleteById(id);
         return new ResponseEntity<>(id,HttpStatus.ACCEPTED);
     }
     @GetMapping("/get/pacient/{id}")
-    public ResponseEntity<PacientEntity> getCabinetEntity(@PathVariable Integer id){
+    public ResponseEntity<PacientEntity> getPacientEntity(@PathVariable Integer id){
         PacientEntity pacient=pacientEntityInterface.findPacientEntityByIdpacient(id);
         return new ResponseEntity<>(pacient,HttpStatus.ACCEPTED);
     }

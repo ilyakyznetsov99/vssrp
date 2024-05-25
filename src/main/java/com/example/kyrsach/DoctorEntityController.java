@@ -11,21 +11,24 @@ public class DoctorEntityController {
     private  DoctorEntityInterface doctorEntityInterface;
 
     @GetMapping("/get/doctors")
-    public Iterable<DoctorEntity> getCabinetEntities() {
+    public Iterable<DoctorEntity> getDoctorEntities() {
         return doctorEntityInterface.findAll();
     }
     @PostMapping("/add/doctor")
-    public ResponseEntity<DoctorEntity> createCabinetEntity(@RequestBody DoctorEntity cabinet) {
+    public ResponseEntity<DoctorEntity> createDoctorEntity(@RequestBody DoctorEntity cabinet) {
         doctorEntityInterface.save(cabinet);
         return new ResponseEntity<>(cabinet, HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/doctor/{id}")
-    public ResponseEntity<Integer> deleteCabinetEntity(@PathVariable Integer id){
+    public ResponseEntity<Integer> deleteDoctorEntity(@PathVariable Integer id){
+        if(doctorEntityInterface.existsById(id)){
         doctorEntityInterface.deleteById(id);
         return new ResponseEntity<>(id,HttpStatus.ACCEPTED);
+        }
+        else return new ResponseEntity<>(id,HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @GetMapping("/get/doctor/{id}")
-    public ResponseEntity<DoctorEntity> getCabinetEntity(@PathVariable Integer id){
+    public ResponseEntity<DoctorEntity> getDoctorEntity(@PathVariable Integer id){
 
         DoctorEntity doctor=doctorEntityInterface.findDoctorEntityByIddoctor(id);
         return new ResponseEntity<>(doctor,HttpStatus.ACCEPTED);

@@ -16,15 +16,17 @@ public class CabinetEntityController {
     }
     @PostMapping("/add/cabinet")
     public ResponseEntity<CabinetEntity> createCabinetEntity(@RequestBody CabinetEntity cabinet) {
-        // customer.setId(String.valueOf(customerId++));
-        //customers.add(customer);
         cabinetEntitiyInterface.save(cabinet);
         return new ResponseEntity<>(cabinet, HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/cabinet/{id}")
     public ResponseEntity<Integer> deleteCabinetEntity(@PathVariable Integer id){
-        cabinetEntitiyInterface.deleteById(id);
-        return new ResponseEntity<>(id,HttpStatus.ACCEPTED);
+        if(cabinetEntitiyInterface.existsById(id))
+        {
+            cabinetEntitiyInterface.deleteById(id);
+            return new ResponseEntity<>(id,HttpStatus.ACCEPTED);
+        }
+        else return new ResponseEntity<>(id,HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @GetMapping("/get/cabinet/{id}")
     public ResponseEntity<CabinetEntity> getCabinetEntity(@PathVariable Integer id){
