@@ -34,4 +34,20 @@ public class DoctorEntityController {
         return new ResponseEntity<>(doctor,HttpStatus.ACCEPTED);
     }
 
+    @PutMapping("/update/doctor/{id}")
+    public  ResponseEntity<String> updateDoctorEntity(@PathVariable Long id,@RequestBody DoctorEntity doctorCard){
+        if(doctorEntityInterface.existsById(id.intValue())) {
+            DoctorEntity doctorOrig = doctorEntityInterface.findDoctorEntityByIddoctor(id.intValue());
+            if (!doctorOrig.equals(doctorCard)) {
+                doctorCard.setIddoctor(id.intValue());
+                doctorEntityInterface.save(doctorCard);
+                return new ResponseEntity<>("updatet", HttpStatus.GONE);
+            } else {
+                return new ResponseEntity<>("not updatet", HttpStatus.LOCKED);
+            }
+        }else {
+            return new ResponseEntity<>("not exist",HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }
